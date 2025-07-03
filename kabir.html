@@ -1,0 +1,484 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Employee Management App
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+ </head>
+ <body class="bg-gray-50 min-h-screen flex flex-col">
+  <header class="bg-white shadow-md">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <div class="flex items-center space-x-3">
+     <img alt="Logo with letters EM for Employee Management" class="h-10 w-10 rounded-full" height="40" src="https://storage.googleapis.com/a1aa/image/45ce4478-d506-4acd-3aef-b3cb380302b4.jpg" width="40"/>
+     <h1 class="text-xl font-semibold text-gray-900">
+      Employee Management
+     </h1>
+    </div>
+    <nav class="hidden md:flex space-x-6 text-gray-700 font-medium">
+     <a class="hover:text-indigo-600 transition" href="#">
+      Dashboard
+     </a>
+     <a class="hover:text-indigo-600 transition" href="#">
+      Employees
+     </a>
+     <a class="hover:text-indigo-600 transition" href="#">
+      Departments
+     </a>
+     <a class="hover:text-indigo-600 transition" href="#">
+      Settings
+     </a>
+    </nav>
+    <button aria-label="Open menu" class="md:hidden text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="mobile-menu-button">
+     <i class="fas fa-bars fa-lg">
+     </i>
+    </button>
+   </div>
+   <nav aria-label="Mobile menu" class="md:hidden bg-white border-t border-gray-200 hidden" id="mobile-menu">
+    <a class="block px-4 py-3 text-gray-700 hover:bg-indigo-50" href="#">
+     Dashboard
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-indigo-50" href="#">
+     Employees
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-indigo-50" href="#">
+     Departments
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-indigo-50" href="#">
+     Settings
+    </a>
+   </nav>
+  </header>
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+   <section>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+     <h2 class="text-2xl font-semibold text-gray-900 mb-4 md:mb-0">
+      Employees
+     </h2>
+     <button class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" id="addEmployeeBtn">
+      <i class="fas fa-plus mr-2">
+      </i>
+      Add Employee
+     </button>
+    </div>
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+     <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-indigo-50">
+       <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider" scope="col">
+         Name
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider" scope="col">
+         Position
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider" scope="col">
+         Department
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider" scope="col">
+         Email
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider" scope="col">
+         Phone
+        </th>
+        <th class="relative px-6 py-3" scope="col">
+         <span class="sr-only">
+          Edit
+         </span>
+        </th>
+       </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200" id="employeeTableBody">
+      </tbody>
+     </table>
+    </div>
+   </section>
+  </main>
+  <div aria-labelledby="modalTitle" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="employeeModal" role="dialog">
+   <div class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-4">
+    <form class="p-6" id="employeeForm">
+     <h3 class="text-xl font-semibold text-gray-900 mb-4" id="modalTitle">
+      Add Employee
+     </h3>
+     <div class="space-y-4">
+      <div>
+       <label class="block text-sm font-medium text-gray-700" for="name">
+        Full Name
+       </label>
+       <input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="name" name="name" placeholder="John Doe" required="" type="text"/>
+      </div>
+      <div>
+       <label class="block text-sm font-medium text-gray-700" for="position">
+        Position
+       </label>
+       <input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="position" name="position" placeholder="Software Engineer" required="" type="text"/>
+      </div>
+      <div>
+       <label class="block text-sm font-medium text-gray-700" for="department">
+        Department
+       </label>
+       <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="department" name="department" required="">
+        <option disabled="" selected="" value="">
+         Select department
+        </option>
+        <option>
+         Engineering
+        </option>
+        <option>
+         Human Resources
+        </option>
+        <option>
+         Marketing
+        </option>
+        <option>
+         Sales
+        </option>
+        <option>
+         Finance
+        </option>
+        <option>
+         Customer Support
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block text-sm font-medium text-gray-700" for="email">
+        Email
+       </label>
+       <input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="email" name="email" placeholder="john.doe@example.com" required="" type="email"/>
+      </div>
+      <div>
+       <label class="block text-sm font-medium text-gray-700" for="phone">
+        Phone
+       </label>
+       <input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="phone" name="phone" pattern="^\+?[0-9\s\-]{7,15}$" placeholder="+1 555 123 4567" required="" type="tel"/>
+      </div>
+     </div>
+     <div class="mt-6 flex justify-end space-x-3">
+      <button class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="cancelBtn" type="button">
+       Cancel
+      </button>
+      <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="submit">
+       Save
+      </button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <div aria-labelledby="deleteModalTitle" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="deleteModal" role="dialog">
+   <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4" id="deleteModalTitle">
+     Delete Employee
+    </h3>
+    <p class="text-gray-700 mb-6">
+     Are you sure you want to delete this employee? This action cannot be undone.
+    </p>
+    <div class="flex justify-end space-x-3">
+     <button class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="cancelDeleteBtn">
+      Cancel
+     </button>
+     <button class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" id="confirmDeleteBtn">
+      Delete
+     </button>
+    </div>
+   </div>
+  </div>
+  <script>
+   const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    let employees = [
+      {
+        id: 1,
+        name: 'Alice Johnson',
+        position: 'Software Engineer',
+        department: 'Engineering',
+        email: 'alice.johnson@example.com',
+        phone: '+1 555 123 4567',
+      },
+      {
+        id: 2,
+        name: 'Bob Smith',
+        position: 'Marketing Manager',
+        department: 'Marketing',
+        email: 'bob.smith@example.com',
+        phone: '+1 555 234 5678',
+      },
+      {
+        id: 3,
+        name: 'Carol Williams',
+        position: 'HR Specialist',
+        department: 'Human Resources',
+        email: 'carol.williams@example.com',
+        phone: '+1 555 345 6789',
+      },
+      {
+        id: 4,
+        name: 'David Brown',
+        position: 'Sales Executive',
+        department: 'Sales',
+        email: 'david.brown@example.com',
+        phone: '+1 555 456 7890',
+      },
+      {
+        id: 5,
+        name: 'Eva Green',
+        position: 'Financial Analyst',
+        department: 'Finance',
+        email: 'eva.green@example.com',
+        phone: '+1 555 567 8901',
+      },
+      {
+        id: 6,
+        name: 'Frank Miller',
+        position: 'Customer Support Rep',
+        department: 'Customer Support',
+        email: 'frank.miller@example.com',
+        phone: '+1 555 678 9012',
+      },
+      {
+        id: 7,
+        name: 'Grace Lee',
+        position: 'Product Manager',
+        department: 'Engineering',
+        email: 'grace.lee@example.com',
+        phone: '+1 555 789 0123',
+      },
+      {
+        id: 8,
+        name: 'Henry Wilson',
+        position: 'UX Designer',
+        department: 'Marketing',
+        email: 'henry.wilson@example.com',
+        phone: '+1 555 890 1234',
+      },
+      {
+        id: 9,
+        name: 'Isabel Martinez',
+        position: 'Recruiter',
+        department: 'Human Resources',
+        email: 'isabel.martinez@example.com',
+        phone: '+1 555 901 2345',
+      },
+      {
+        id: 10,
+        name: 'Jack Taylor',
+        position: 'Sales Manager',
+        department: 'Sales',
+        email: 'jack.taylor@example.com',
+        phone: '+1 555 012 3456',
+      },
+      {
+        id: 11,
+        name: 'Karen Anderson',
+        position: 'Accountant',
+        department: 'Finance',
+        email: 'karen.anderson@example.com',
+        phone: '+1 555 123 4560',
+      },
+      {
+        id: 12,
+        name: 'Liam Thomas',
+        position: 'Technical Support',
+        department: 'Customer Support',
+        email: 'liam.thomas@example.com',
+        phone: '+1 555 234 5670',
+      },
+      {
+        id: 13,
+        name: 'Mia Harris',
+        position: 'Software Tester',
+        department: 'Engineering',
+        email: 'mia.harris@example.com',
+        phone: '+1 555 345 6780',
+      },
+      {
+        id: 14,
+        name: 'Noah Clark',
+        position: 'Content Strategist',
+        department: 'Marketing',
+        email: 'noah.clark@example.com',
+        phone: '+1 555 456 7890',
+      },
+      {
+        id: 15,
+        name: 'Olivia Lewis',
+        position: 'HR Manager',
+        department: 'Human Resources',
+        email: 'olivia.lewis@example.com',
+        phone: '+1 555 567 8900',
+      },
+    ];
+
+    let editingEmployeeId = null;
+    const employeeTableBody = document.getElementById('employeeTableBody');
+    const employeeModal = document.getElementById('employeeModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const employeeForm = document.getElementById('employeeForm');
+    const addEmployeeBtn = document.getElementById('addEmployeeBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const modalTitle = document.getElementById('modalTitle');
+
+    function renderEmployees() {
+      employeeTableBody.innerHTML = '';
+      employees.forEach((emp) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-indigo-50 cursor-default';
+
+        tr.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${emp.name}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${emp.position}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${emp.department}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 underline break-all">${emp.email}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${emp.phone}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+            <button
+              class="text-indigo-600 hover:text-indigo-900 focus:outline-none"
+              aria-label="Edit ${emp.name}"
+              data-id="${emp.id}"
+              data-action="edit"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
+            <button
+              class="text-red-600 hover:text-red-900 focus:outline-none"
+              aria-label="Delete ${emp.name}"
+              data-id="${emp.id}"
+              data-action="delete"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        `;
+        employeeTableBody.appendChild(tr);
+      });
+    }
+
+    function openEmployeeModal(edit = false, employee = null) {
+      employeeModal.classList.remove('hidden');
+      if (edit && employee) {
+        modalTitle.textContent = 'Edit Employee';
+        employeeForm.name.value = employee.name;
+        employeeForm.position.value = employee.position;
+        employeeForm.department.value = employee.department;
+        employeeForm.email.value = employee.email;
+        employeeForm.phone.value = employee.phone;
+        editingEmployeeId = employee.id;
+      } else {
+        modalTitle.textContent = 'Add Employee';
+        employeeForm.reset();
+        editingEmployeeId = null;
+      }
+      employeeForm.name.focus();
+    }
+
+    function closeEmployeeModal() {
+      employeeModal.classList.add('hidden');
+      employeeForm.reset();
+      editingEmployeeId = null;
+    }
+
+    let employeeIdToDelete = null;
+    function openDeleteModal(id) {
+      employeeIdToDelete = id;
+      deleteModal.classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+      employeeIdToDelete = null;
+      deleteModal.classList.add('hidden');
+    }
+
+    employeeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(employeeForm);
+      const newEmployee = {
+        id: editingEmployeeId || Date.now(),
+        name: formData.get('name').trim(),
+        position: formData.get('position').trim(),
+        department: formData.get('department'),
+        email: formData.get('email').trim(),
+        phone: formData.get('phone').trim(),
+      };
+
+      if (editingEmployeeId) {
+        employees = employees.map((emp) =>
+          emp.id === editingEmployeeId ? newEmployee : emp
+        );
+      } else {
+        employees.push(newEmployee);
+      }
+      renderEmployees();
+      closeEmployeeModal();
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      closeEmployeeModal();
+    });
+    cancelDeleteBtn.addEventListener('click', () => {
+      closeDeleteModal();
+    });
+
+    confirmDeleteBtn.addEventListener('click', () => {
+      if (employeeIdToDelete !== null) {
+        employees = employees.filter((emp) => emp.id !== employeeIdToDelete);
+        renderEmployees();
+        closeDeleteModal();
+      }
+    });
+
+    addEmployeeBtn.addEventListener('click', () => {
+      openEmployeeModal(false);
+    });
+
+    employeeTableBody.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const action = btn.getAttribute('data-action');
+      const id = Number(btn.getAttribute('data-id'));
+      if (action === 'edit') {
+        const employee = employees.find((emp) => emp.id === id);
+        if (employee) {
+          openEmployeeModal(true, employee);
+        }
+      } else if (action === 'delete') {
+        openDeleteModal(id);
+      }
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === employeeModal) {
+        closeEmployeeModal();
+      }
+      if (e.target === deleteModal) {
+        closeDeleteModal();
+      }
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (!employeeModal.classList.contains('hidden')) {
+          closeEmployeeModal();
+        }
+        if (!deleteModal.classList.contains('hidden')) {
+          closeDeleteModal();
+        }
+      }
+    });
+
+    renderEmployees();
+  </script>
+ </body>
+</html>
